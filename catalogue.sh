@@ -75,8 +75,13 @@ VALIDATE $? "Copy Mongo Repo"
 dnf install mongodb-mongosh -y &>>$LOG_FILE
 VALIDATE $? "Install MongoDB client"
 
-mongosh --host $MONGODB_HOST < /app/db/master-data.js &>>$LOG_FILE 
-VALIDATE $? "Load catalogue products"
+Index=$(mongosh mongodb.devaws.store --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')")
+if [ $INDEX -le 0 ]; then
+    mongosh --host $MONGODB_HOST < /app/db/master-data.js &>>$LOG_FILE 
+    VALIDATE $? "Load catalogue products"
+else
+    echo -e "Catalogue Products already loaded...$Y SKIPPING $N"
+fi
 
 systemctl restart catalogue
 VALIDATE $? "Restart Catalogue"
