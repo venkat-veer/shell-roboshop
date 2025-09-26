@@ -23,7 +23,7 @@ if [ $USERID -ne 0 ]; then
     exit 1 # failure is other than 0
 fi
 
-# VALIDATE(){ # functions receive inputs through args just like shell script args
+# VALIDATE(){ # functions receive inputs through args just like shell script args       # instead of this we use set-trap ok
 #     if [ $1 -ne 0 ]; then
 #         echo -e "$2 ... $R FAILURE $N" | tee -a $LOG_FILE
 #         exit 1
@@ -37,8 +37,9 @@ dnf module disable nodejs -y &>>$LOG_FILE
 # VALIDATE $? "Disabling NodeJS"
 dnf module enable nodejs:20 -y &>>$LOG_FILE
 # VALIDATE $? "Enable NodeJS 20"
-dnf install nodejs -y &>>$LOG_FILE
+dnf install nodejs -y &>>$LOG_FILE                  # echo -e "Installing NodeJS 20 ... $G SUCCESS $N" - can write this also                     
 # VALIDATE $? "Installing NodeJS"
+
 
 #idempotency
 id roboshop &>>$LOG_FILE 
@@ -90,5 +91,6 @@ fi
 
 systemctl restart catalogue
 # VALIDATE $? "Restart Catalogue"
+echo -e "Loading Products and restarting catalogue ... $G SUCCESS $N".      # -e for color enable purpose.
 
 
