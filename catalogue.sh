@@ -75,7 +75,7 @@ VALIDATE $? "Copy Mongo Repo"
 dnf install mongodb-mongosh -y &>>$LOG_FILE
 VALIDATE $? "Install MongoDB client"
 
-Index=$(mongosh mongodb.devaws.store --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')")
+INDEX=$(mongosh mongodb.devaws.store --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')")
 if [ $INDEX -le 0 ]; then
     mongosh --host $MONGODB_HOST < /app/db/master-data.js &>>$LOG_FILE 
     VALIDATE $? "Load catalogue products"
