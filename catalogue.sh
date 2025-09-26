@@ -79,6 +79,6 @@ mongosh --host $MONGODB_HOST < /app/db/master-data.js &>>$LOG_FILE
 VALIDATE $? "Load catalogue products"
 
 systemctl restart catalogue
-validate $? "REstart Catalogue"
+VALIDATE $? "Restart Catalogue"
 
 
