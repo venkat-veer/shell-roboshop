@@ -1,10 +1,10 @@
 #!/bin/bash
 
 USERID=$(id -u)
-R="\e[31m"
-G="\e[32m"
-Y="\e[33m"
-N="\e[0m"
+R="\e[31m"                  #  red
+G="\e[32m"                  #  green
+Y="\e[33m"                  #  yellow
+N="\e[0m"                   #  nothing
 
 LOGS_FOLDER="/var/log/shell-roboshop"
 SCRIPT_NAME=$( echo $0 | cut -d "." -f1 )
