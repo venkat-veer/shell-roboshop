@@ -35,7 +35,7 @@ VALIDATE $? "Enable NodeJS 20"
 dnf install nodejs -y &>>$LOG_FILE
 VALIDATE $? "Installing NodeJS"
 
-
+#idempotency
 id roboshop &>>$LOG_FILE 
 if [ $? -ne 0 ]; then
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOG_FILE   
@@ -52,12 +52,19 @@ VALIDATE $? "Downloading Catalogue Application"
 
 cd /app
 VALIDATE $? "Changing to app Directory"
+
+rm -rf /app/*
+VALIDATE $? "Remove Existing Code"
+
 unzip /tmp/catalogue.zip &>>$LOG_FILE
 VALIDATE $? "Unzip Catalogue"
+
 npm install &>>$LOG_FILE
 VALIDATE $? "Install Dependencies"
+
 cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
 VALIDATE $? "Copy systemctl service"
+
 systemctl daemon-reload
 systemctl enable catalogue &>>$LOG_FILE
 VALIDATE $? "Enable catalogue"
@@ -70,6 +77,7 @@ VALIDATE $? "Install MongoDB client"
 
 mongosh --host $MONGODB_HOST < /app/db/master-data.js &>>$LOG_FILE 
 VALIDATE $? "Load catalogue products"
+
 systemctl restart catalogue
 validate $? "REstart Catalogue"
 
