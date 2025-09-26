@@ -1,10 +1,10 @@
 #!/bin/bash
 
 USERID=$(id -u)
-R="\e[31m"                  #  red
-G="\e[32m"                  #  green
-Y="\e[33m"                  #  yellow
-N="\e[0m"                   #  nothing
+R="\e[31m"
+G="\e[32m"
+Y="\e[33m"
+N="\e[0m"
 
 LOGS_FOLDER="/var/log/shell-roboshop"
 SCRIPT_NAME=$( echo $0 | cut -d "." -f1 )
@@ -30,22 +30,6 @@ VALIDATE(){ # functions receive inputs through args just like shell script args
 cp mongo.repo /etc/yum.repos.d/mongo.repo
 VALIDATE $? "Adding Mongo repo"
 
-# dnf install mongodb-org -y &>>$LOG_FILE
-# VALIDATE $? "Installing MongoDB"
-
-# systemctl enable mongod &>>$LOG_FILE
-# VALIDATE $? "Enable MongoDB"
-
-# systemctl start mongod
-# VALIDATE $? "Start MongoDB"
-
-# sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
-# VALIDATE $? "Allowing remote connections to MongoDB"
-
-# systemctl restart mongod
-# VALIDATE $? "Restarted MongoDB"
-
-
 dnf install mongodb-org -y &>>$LOG_FILE
 VALIDATE $? "Installing MongoDB"
 
@@ -60,5 +44,3 @@ VALIDATE $? "Allowing remote connections to MongoDB"
 
 systemctl restart mongod
 VALIDATE $? "Restarted MongoDB"
-
-
