@@ -67,8 +67,4 @@ cp $SCRIPT_DIR/10.1-payment.service /etc/systemd/system/payment.service
 systemctl daemon-reload
 systemctl enable payment &>>$LOG_FILE
 
-
-
-
-
 systemctl restart payment 
