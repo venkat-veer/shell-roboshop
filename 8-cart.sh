@@ -12,7 +12,7 @@ N="\e[0m"
 LOGS_FOLDER="/var/log/shell-roboshop"
 SCRIPT_NAME=$( echo $0 | cut -d "." -f1 )
 SCRIPT_DIR=$PWD
-MONGODB_HOST=mongodb.devaws.store
+MONGODB_HOST=mongodb.daws86s.fun
 LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log" # /var/log/shell-script/16-logs.log
 
 mkdir -p $LOGS_FOLDER
@@ -32,40 +32,39 @@ VALIDATE(){ # functions receive inputs through args just like shell script args
     fi
 }
 
-##### NODEJS #######
+##### NodeJS ####
 dnf module disable nodejs -y &>>$LOG_FILE
 VALIDATE $? "Disabling NodeJS"
-dnf module enable nodejs:20 -y &>>$LOG_FILE
-VALIDATE $? "Enable NodeJS 20"
+dnf module enable nodejs:20 -y  &>>$LOG_FILE
+VALIDATE $? "Enabling NodeJS 20"
 dnf install nodejs -y &>>$LOG_FILE
 VALIDATE $? "Installing NodeJS"
 
-#idempotency
-id roboshop &>>$LOG_FILE 
+id roboshop &>>$LOG_FILE
 if [ $? -ne 0 ]; then
-    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOG_FILE   
-    VALIDATE $? "Create System User"
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOG_FILE
+    VALIDATE $? "Creating system user"
 else
-    echo -e "User already Exists ... $Y SKIPPING $N"
+    echo -e "User already exist ... $Y SKIPPING $N"
 fi
 
 mkdir -p /app
-VALIDATE $? "Creating App Directory"
+VALIDATE $? "Creating app directory"
 
 curl -o /tmp/cart.zip https://roboshop-artifacts.s3.amazonaws.com/cart-v3.zip &>>$LOG_FILE
-VALIDATE $? "Downloading Cart Application"
+VALIDATE $? "Downloading cart application"
 
-cd /app
-VALIDATE $? "Changing to app Directory"
+cd /app 
+VALIDATE $? "Changing to app directory"
 
 rm -rf /app/*
-VALIDATE $? "Remove Existing Code"
+VALIDATE $? "Removing existing code"
 
 unzip /tmp/cart.zip &>>$LOG_FILE
-VALIDATE $? "Unzip Cart"
+VALIDATE $? "unzip cart"
 
 npm install &>>$LOG_FILE
-VALIDATE $? "Install Dependencies"
+VALIDATE $? "Install dependencies"
 
 cp $SCRIPT_DIR/8.1-cart.service /etc/systemd/system/cart.service
 VALIDATE $? "Copy systemctl service"
@@ -75,6 +74,4 @@ systemctl enable cart &>>$LOG_FILE
 VALIDATE $? "Enable cart"
 
 systemctl restart cart
-VALIDATE $? "Restart cart"
-
-
+VALIDATE $? "Restarted cart"
