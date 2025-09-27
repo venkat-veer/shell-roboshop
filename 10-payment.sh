@@ -34,7 +34,7 @@ VALIDATE(){ # functions receive inputs through args just like shell script args
 }
 
 
-dnf install python -y &>>$LOG_FILE
+dnf install python3 gcc python3-devel -y &>>$LOG_FILE
 
 #idempotency
 id roboshop &>>$LOG_FILE 
