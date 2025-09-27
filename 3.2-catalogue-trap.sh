@@ -68,14 +68,14 @@ unzip /tmp/catalogue.zip &>>$LOG_FILE
 npm install &>>$LOG_FILE
 # VALIDATE $? "Install Dependencies"
 
-cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
+cp $SCRIPT_DIR/3.1-catalogue.service /etc/systemd/system/catalogue.service
 # VALIDATE $? "Copy systemctl service"
 
 systemctl daemon-reload
 systemctl enable catalogue &>>$LOG_FILE
 # VALIDATE $? "Enable catalogue"
 
-cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
+cp $SCRIPT_DIR/2.1-mongo.repo /etc/yum.repos.d/mongo.repo
 # VALIDATE $? "Copy Mongo Repo"
 
 dnf install mongodb-mongoshhifi -y &>>$LOG_FILE
