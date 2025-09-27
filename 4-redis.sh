@@ -1,8 +1,7 @@
 #!/bin/bash
 
-# https://github.com/daws-86s/roboshop-documentation/blob/main/01-mongodb.MD
-# https://github.com/daws-86s/shell-roboshop/blob/main/mongodb.sh
-
+# https://github.com/daws-86s/roboshop-documentation/blob/main/04-redis.MD
+# https://github.com/daws-86s/shell-roboshop/blob/main/redis.sh
 
 USERID=$(id -u)
 R="\e[31m"
@@ -31,20 +30,20 @@ VALIDATE(){ # functions receive inputs through args just like shell script args
     fi
 }
 
-cp 2.1-mongo.repo /etc/yum.repos.d/mongo.repo
-VALIDATE $? "Adding Mongo repo"
+dnf module disable redis -y &>>$LOG_FILE
+VALIDATE $? "Disable Default Redis"
 
-dnf install mongodb-org -y &>>$LOG_FILE
-VALIDATE $? "Installing MongoDB"
+dnf module enable redis:7 -y&>>$LOG_FILE 
+VALIDATE $? "Enable Redis 7"
 
-systemctl enable mongod &>>$LOG_FILE
-VALIDATE $? "Enable MongoDB"
+dnf install redis -y &>>$LOG_FILE
+VALIDATE $? "Installing Redis"
 
-systemctl start mongod 
-VALIDATE $? "Start MongoDB"
+sed -i -e "s/127.0.0.1/0.0.0.0/g" -e "/protected-mode/ c protected-mode no" /etc/redis/redis.conf
+VALIDATE $? "Allow Remote Connections to Redis"
 
-sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
-VALIDATE $? "Allowing remote connections to MongoDB"
+systemctl enable redis &>>$LOG_FILE
+VALIDATE $? "Enable Redis"
 
-systemctl restart mongod
-VALIDATE $? "Restarted MongoDB"
+systemctl start redis &>>$LOG_FILE
+VALIDATE $? "Start Redis"

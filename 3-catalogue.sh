@@ -1,3 +1,8 @@
+#!/usr/bin/bash
+
+# https://github.com/daws-86s/roboshop-documentation/blob/main/02-catalogue.MD
+# https://github.com/daws-86s/shell-roboshop/blob/main/catalogue.sh
+
 USERID=$(id -u)
 R="\e[31m"
 G="\e[32m"

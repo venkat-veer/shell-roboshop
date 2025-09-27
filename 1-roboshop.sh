@@ -1,4 +1,5 @@
 #!/bin/bash
+# https://github.com/daws-86s/shell-roboshop/blob/main/roboshop.sh  -github shell-rogoshop repo link
 
 AMI_ID="ami-09c813fb71547fc4f"          # ami -id same for all siva also same
 SG_ID="sg-0f80e4641e406c1e3"            # it is different siva id different mine is different.
